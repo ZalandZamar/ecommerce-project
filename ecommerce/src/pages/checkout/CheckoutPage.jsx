@@ -3,7 +3,7 @@ import { OrderSummary } from './OrderSummary.jsx';
 import { PaymentSummary } from './PaymentSummary.jsx';
 import './checkout.css'
 
-export function CheckoutPage({ cart }) {
+export function CheckoutPage({ cart, loadCart }) {
   return (
     <>
       <CheckoutHeader />
@@ -12,7 +12,7 @@ export function CheckoutPage({ cart }) {
         <div className="page-title">Review your order</div>
 
         <div className="checkout-grid">
-          <OrderSummary cart={cart} />
+          <OrderSummary cart={cart} loadCart={loadCart} />
 
           <PaymentSummary />
         </div>
