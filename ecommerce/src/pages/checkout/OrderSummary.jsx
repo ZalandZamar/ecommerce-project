@@ -22,11 +22,11 @@ export function OrderSummary({ cart, loadCart }) {
           const selectedDeliveryOption = deliveryOptions.find(deliveryOption => {
             return deliveryOption.id === cartItem.deliveryOptionId;
           });
-          
+
           return (
             <div key={cartItem.productId} className="cart-item-container">
               <div className="delivery-date">
-                Delivery date: {dayjs(selectedDeliveryOption.estimatedDeliveryTimeMs).format('dddd, MMMM D')}
+                Delivery date: {selectedDeliveryOption ? dayjs(selectedDeliveryOption.estimatedDeliveryTimeMs).format('dddd, MMMM D') : 'Loading delivery date...'}
               </div>
 
               <div className="cart-item-details-grid">
@@ -68,16 +68,17 @@ export function OrderSummary({ cart, loadCart }) {
                       }
 
                       return (
-                        <div key={deliveryOption.id} className="delivery-option">
+                        <div key={deliveryOption.id}
+                          onClick={updateDeliveryOption}
+                          className="delivery-option">
                           <input type="radio"
                             checked={cartItem.deliveryOptionId === deliveryOption.id}
-                            onClick={updateDeliveryOption}
                             onChange={() => { }}
                             className="delivery-option-input"
                             name={`delivery-option-${cartItem.productId}`} />
                           <div>
                             <div className="delivery-option-date">
-                              {dayjs(deliveryOption.estimatedDeliveryTImeMs).format('dddd, MMMM D')}
+                              {dayjs(deliveryOption.estimatedDeliveryTimeMs).format('dddd, MMMM D')}
                             </div>
                             <div className="delivery-option-price">
                               {
