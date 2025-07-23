@@ -1,10 +1,10 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { formatMoney } from './utils/money.js';
-import './index.css'
-import './header.css'
+import { Header } from '../../components/header.jsx';
+import { formatMoney } from '../../utils/money.js';
+import './HomePage.css'
 
-export function HomePage() {
+export function HomePage({ cart, loadCart }) {
   const [products, setProducts] = useState([]);
 
   const getHomeData = async () => {
@@ -12,43 +12,24 @@ export function HomePage() {
     setProducts(response.data);
   }
 
+  const addToCart = async () => {
+    await axios.post('http://localhost:3000/api/cart-items', {
+      productId: product.id,
+      quantity: 1
+    });
+
+    loadCart();
+  }
+
   useEffect(() => {
     getHomeData();
   }, []);
 
+  window.axios = axios;
+
   return (
     <>
-      <div className="header">
-        <div className="left-section">
-          <a href="/" className="header-link">
-            <img className="logo"
-              src="images/logo-white.png" />
-            <img className="mobile-logo"
-              src="images/mobile-logo-white.png" />
-          </a>
-        </div>
-
-        <div className="middle-section">
-          <input className="search-bar" type="text" placeholder="Search" />
-
-          <button className="search-button">
-            <img className="search-icon" src="images/icons/search-icon.png" />
-          </button>
-        </div>
-
-        <div className="right-section">
-          <a className="orders-link header-link" href="orders">
-
-            <span className="orders-text">Orders</span>
-          </a>
-
-          <a className="cart-link header-link" href="checkout">
-            <img className="cart-icon" src="images/icons/cart-icon.png" />
-            <div className="cart-quantity">3</div>
-            <div className="cart-text">Cart</div>
-          </a>
-        </div>
-      </div>
+      <Header cart={cart} />
 
       <div className="home-page">
         <div className="products-grid">
@@ -100,7 +81,14 @@ export function HomePage() {
                     Added
                   </div>
 
-                  <button className="add-to-cart-button button-primary">
+                  <button className="add-to-cart-button button-primary" onClick={async () => {
+                    const response = await axios.post('http://localhost:3000/api/cart-items', {
+                      productId: product.id,
+                      quantity: 1
+                    });
+
+                    loadCart();
+                  }}>
                     Add to Cart
                   </button>
                 </div>
