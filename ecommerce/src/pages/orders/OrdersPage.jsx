@@ -9,7 +9,7 @@ export function Orders({ cart }) {
   const [orders, setOrders] = useState([]);
 
   const getOrdersData = async () => {
-    const response = await axios.get('http://localhost:3000/api/orders');
+    const response = await axios.get('http://localhost:3000/api/orders?expand=products');
     setOrders(response.data);
   }
 
@@ -30,9 +30,9 @@ export function Orders({ cart }) {
               return (
                 <div className="order-container">
 
-                  <OrderHeader />
+                  <OrderHeader order={order} />
 
-                  <OrderDetailsGrid />
+                  <OrderDetailsGrid order={order} />
                 </div>
               )
             })
