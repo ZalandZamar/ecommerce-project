@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import api from "../../utils/api.js";
 import { formatMoney } from "../../utils/money.js";
 
 export function PaymentSummary({ loadCart, cart }) {
@@ -9,14 +10,14 @@ export function PaymentSummary({ loadCart, cart }) {
   const navigate = useNavigate();
 
   const getPaymentSummary = async () => {
-    const response = await axios.get('http://localhost:3000/api/payment-summary');
+    const response = await api.get('http://localhost:3000/api/payment-summary');
     setPaymentSummary(response.data);
 
     loadCart();
   }
 
   const createOrder = async () => {
-    await axios.post('http://localhost:3000/api/orders');
+    await api.post('http://localhost:3000/api/orders');
 
     await loadCart();
     navigate('/orders');

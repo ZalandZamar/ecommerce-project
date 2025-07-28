@@ -1,13 +1,14 @@
 import axios from "axios";
 import dayjs from 'dayjs';
 import { useState, useEffect } from "react";
+import api from '../../utils/api.js';
 import { formatMoney } from "../../utils/money.js";
 
 export function OrderSummary({ cart, loadCart }) {
   const [deliveryOptions, setDeliveryOptions] = useState([]);
 
   const getDeliveryOptions = async () => {
-    const response = await axios.get('http://localhost:3000/api/delivery-options?expand=estimatedDeliveryTime');
+    const response = await api.get('http://localhost:3000/api/delivery-options?expand=estimatedDeliveryTime');
     setDeliveryOptions(response.data);
   }
 
@@ -60,7 +61,7 @@ export function OrderSummary({ cart, loadCart }) {
                   {
                     deliveryOptions.map((deliveryOption) => {
                       const updateDeliveryOption = async () => {
-                        await axios.put(`http://localhost:3000/api/cart-items/${cartItem.productId}`, {
+                        await api.put(`http://localhost:3000/api/cart-items/${cartItem.productId}`, {
                           deliveryOptionId: deliveryOption.id
                         })
 

@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import api from '../../utils/api.js';
 import { Header } from '../../components/header.jsx';
 import { formatMoney } from '../../utils/money.js';
 import './HomePage.css'
@@ -8,12 +9,12 @@ export function HomePage({ cart, loadCart }) {
   const [products, setProducts] = useState([]);
 
   const getHomeData = async () => {
-    const response = await axios.get('http://localhost:3000/api/products');
+    const response = await api.get('http://localhost:3000/api/products');
     setProducts(response.data);
   }
 
   const addToCart = async () => {
-    await axios.post('http://localhost:3000/api/cart-items', {
+    await api.post('http://localhost:3000/api/cart-items', {
       productId: product.id,
       quantity: 1
     });
